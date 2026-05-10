@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>妈妈，母亲节快乐</title>
+
+<style>
+:root {
+  --bg1: #fbf4ec;
+  --bg2: #ecd1c3;
+  --paper: rgba(255, 250, 244, 0.84);
+  --paper2: #fffaf3;
+  --ink: #2f241f;
+  --soft: rgba(47, 36, 31, 0.68);
+  --muted: rgba(47, 36, 31, 0.42);
+  --rose: #b8786b;
+  --rose2: #e7b8aa;
+  --gold: #c79a5d;
+  --sage: #9ea88f;
+  --blue: #8fa6a0;
+  --brown: #65473b;
+  --shadow: rgba(84, 52, 38, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(255,255,255,.96), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(231,184,170,.5), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(199,154,93,.16), transparent 46%),
+    linear-gradient(145deg, var(--bg1), var(--bg2));
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .11;
+  background-image: radial-gradient(rgba(70, 44, 35, .28) .55px, transparent .55px);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  z-index: 20;
+}
+
+.app {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.scene {
+  min-height: 100vh;
+  padding: 22px;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel {
+  width: min(92vw, 430px);
+  min-height: 660px;
+  padding: 26px 22px 28px;
+  border-radius: 36px;
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid rgba(255,255,255,.78);
+  box-shadow:
+    0 36px 96px var(--shadow),
+    inset 0 1px 0 rgba(255,255,255,.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  right: -130px;
+  top: -130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.95), transparent 70%);
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 28px;
+  border: 1px solid rgba(47,36,31,.07);
+  pointer-events: none;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.chapter {
+  margin-top: 34px;
+  position: relative;
+  z-index: 2;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: .16em;
+  color: var(--rose);
+  text-transform: uppercase;
+}
+
+h1, h2 {
+  position: relative;
+  z-index: 2;
+  margin: 10px 0 0;
+  letter-spacing: -.065em;
+}
+
+h1 {
+  font-size: clamp(42px, 13vw, 60px);
+  line-height: .98;
+  font-weight: 680;
+}
+
+h2 {
+  font-size: clamp(31px, 9vw, 42px);
+  line-height: 1.1;
+  font-weight: 650;
+}
+
+.text {
+  position: relative;
+  z-index: 2;
+  margin-top: 18px;
+  font-size: 15.5px;
+  line-height: 1.95;
+  color: var(--soft);
+  white-space: pre-line;
+}
+
+.visual {
+  height: 292px;
+  margin: 28px 0 12px;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caption {
+  position: relative;
+  z-index: 2;
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.4);
+  border: 1px solid rgba(255,255,255,.68);
+  font-size: 14.7px;
+  line-height: 1.85;
+  color: rgba(47,36,31,.74);
+}
+
+.hint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  z-index: 30;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: rgba(47,36,31,.42);
+  pointer-events: none;
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+.progress {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(47,36,31,.24);
+}
+
+button {
+  margin-top: 18px;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 18px;
+  background: linear-gradient(135deg, #9d6559, #68433a);
+  color: #fffaf4;
+  font-size: 14px;
+  box-shadow: 0 14px 28px rgba(90,60,45,.18);
+  cursor: pointer;
+}
+
+.signature {
+  margin-top: 20px;
+  text-align: right;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--rose);
+  font-size: 18px;
+}
+
+/* 统一入场动画 */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: reveal .9s ease forwards;
+}
+
+.d1 { animation-delay: .15s; }
+.d2 { animation-delay: .35s; }
+.d3 { animation-delay: .55s; }
+.d4 { animation-delay: .75s; }
+
+.float {
+  animation: float 4.5s ease-in-out infinite;
+}
+
+/* 纯 CSS 视觉组件 */
+.photo-stack {
+  width: 260px;
+  height: 240px;
+  position: relative;
+}
+
+.photo {
+  position: absolute;
+  width: 174px;
+  height: 204px;
+  left: 43px;
+  top: 14px;
+  border-radius: 18px;
+  background: #fffaf4;
+  box-shadow: 0 20px 38px rgba(79, 48, 35, .15);
+  padding: 14px;
+}
+
+.photo::before {
+  content: "";
+  display: block;
+  height: 128px;
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at 32% 30%, rgba(255,255,255,.75), transparent 22%),
+    linear-gradient(145deg, #f2d9cc, #e7b8aa 52%, #c79a5d);
+}
+
+.photo::after {
+  content: "with all my love";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  color: #8b5a4e;
+}
+
+.photo.back {
+  transform: rotate(-8deg) translate(-20px, 10px);
+  opacity: .62;
+}
+
+.photo.front {
+  transform: rotate(4deg);
+}
+
+.heart-seal {
+  position: absolute;
+  left: 50%;
+  top: 74px;
+  width: 76px;
+  height: 76px;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--rose);
+  border-radius: 20px 20px 8px 20px;
+  box-shadow: 0 16px 28px rgba(126, 75, 63, .18);
+}
+
+.heart-seal::before,
+.heart-seal::after {
+  content: "";
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  background: var(--rose);
+  border-radius: 50%;
+}
+
+.heart-seal::before {
+  left: -38px;
+  top: 0;
+}
+
+.heart-seal::after {
+  left: 0;
+  top: -38px;
+}
+
+.memory-card {
+  width: 260px;
+  height: 224px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255,255,255,.85), transparent 26%),
+    linear-gradient(145deg, #fff7ef, #efd2c4);
+  box-shadow: 0 24px 42px rgba(82, 50, 36, .14);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.72);
+}
+
+.memory-card .label {
+  position: absolute;
+  left: 22px;
+  top: 20px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(47,36,31,.44);
+}
+
+.memory-card .big-word {
+  position: absolute;
+  left: 22px;
+  bottom: 20px;
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: -.06em;
+  color: rgba(47,36,31,.74);
+  font-weight: 650;
+}
+
+.moon {
+  position: absolute;
+  right: 36px;
+  top: 44px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: .85;
+}
+
+.moon::after {
+  content: "";
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  right: -11px;
+  top: -8px;
+  border-radius: 50%;
+  background: #efd2c4;
+}
+
+.cradle {
+  position: absolute;
+  left: 48px;
+  right: 48px;
+  bottom: 52px;
+  height: 82px;
+  border-radius: 48px 48px 30px 30px;
+  background: var(--rose2);
+  box-shadow: inset 0 -14px 0 rgba(185,120,107,.16);
+}
+
+.cradle::before {
+  content: "";
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  top: 26px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255,250,244,.72);
+}
+
+.bowl-scene {
+  width: 270px;
+  height: 230px;
+  position: relative;
+}
+
+.table {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 34px;
+  height: 42px;
+  border-radius: 18px;
+  background: #d19b68;
+  box-shadow: 0 20px 32px rgba(90,60,45,.12);
+}
+
+.bowl {
+  position: absolute;
+  left: 50%;
+  top: 86px;
+  width: 138px;
+  height: 74px;
+  transform: translateX(-50%);
+  border-radius: 0 0 70px 70px;
+  background: #fffaf4;
+  box-shadow: 0 18px 30px rgba(90,60,45,.12);
+}
+
+.bowl::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -16px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fffaf4;
+}
+
+.bowl::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: -8px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(231,184,170,.62);
+}
+
+.steam {
+  position: absolute;
+  top: 32px;
+  width: 8px;
+  height: 54px;
+  border-radius: 999px;
+  border-left: 4px solid rgba(184,120,107,.54);
+  filter: blur(.2px);
+}
+
+.steam.s1 { left: 100px; transform: rotate(18deg); }
+.steam.s2 { left: 136px; transform: rotate(-8deg); height: 64px; }
+.steam.s3 { left: 172px; transform: rotate(16deg); }
+
+.school-scene {
+  width: 270px;
+  height: 232px;
+  position: relative;
+}
+
+.road {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 20px;
+  height: 60px;
+  border-radius: 60px 60px 18px 18px;
+  background: rgba(199,154,93,.32);
+}
+
+.school {
+  position: absolute;
+  left: 52px;
+  right: 52px;
+  top: 30px;
+  height: 128px;
+  border-radius: 18px;
+  background: #fffaf4;
+  box-shadow: 0 20px 36px rgba(82,50,36,.12);
+}
+
+.school::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -38px;
+  margin: auto;
+  width: 150px;
+  height: 70px;
+  background: var(--rose);
+  clip-path: polygon(50% 0, 100% 54%, 100% 100%, 0 100%, 0 54%);
+}
+
+.school::after {
+  content: "school";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #8b5a4e;
+  font-size: 15px;
+}
+
+.bag {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 74px;
+  height: 70px;
+  transform: translateX(-50%);
+  border-radius: 18px;
+  background: var(--blue);
+  box-shadow: 0 18px 30px rgba(82,50,36,.14);
+}
+
+.bag::before {
+  content: "";
+  position: absolute;
+  left: 17px;
+  right: 17px;
+  top: -16px;
+  height: 30px;
+  border: 7px solid #6f8f87;
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+}
+
+.bag::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 32px;
+  height: 20px;
+  border-radius: 8px;
+  background: rgba(255,250,244,.72);
+}
+
+.desk-scene {
+  width: 270px;
+  height: 232px;
+  position: relative;
+}
+
+.window {
+  position: absolute;
+  left: 24px;
+  top: 18px;
+  width: 86px;
+  height: 98px;
+  border-radius: 18px;
+  background: #fffaf4;
+  padding: 14px;
+}
+
+.window::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 44% 46%, rgba(241,205,122,.75), transparent 30%),
+    linear-gradient(145deg, rgba(143,166,160,.58), rgba(215,227,223,.82));
+}
+
+.desk {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 30px;
+  height: 28px;
+  border-radius: 12px;
+  background: #d19b68;
+  box-shadow: 0 18px 30px rgba(90,60,45,.12);
+}
+
+.book {
+  position: absolute;
+  left: 70px;
+  bottom: 58px;
+  width: 74px;
+  height: 32px;
+  border-radius: 7px;
+  background: #fffaf4;
+}
+
+.book::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--rose2);
+}
+
+.cup {
+  position: absolute;
+  left: 152px;
+  bottom: 56px;
+  width: 36px;
+  height: 44px;
+  border-radius: 8px 8px 12px 12px;
+  background: #d7e3df;
+}
+
+.lamp {
+  position: absolute;
+  right: 34px;
+  top: 44px;
+  width: 78px;
+  height: 130px;
+}
+
+.lamp::before {
+  content: "";
+  position: absolute;
+  left: 36px;
+  top: 42px;
+  width: 8px;
+  height: 92px;
+  border-radius: 999px;
+  background: var(--brown);
+  transform: rotate(-20deg);
+}
+
+.lamp::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 18px;
+  width: 64px;
+  height: 38px;
+  border-radius: 12px 12px 24px 24px;
+  background: #fffaf4;
+  box-shadow: 0 18px 32px rgba(241,205,122,.34);
+}
+
+.letter-scene {
+  width: 270px;
+  height: 232px;
+  position: relative;
+}
+
+.envelope {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 58px;
+  height: 138px;
+  border-radius: 22px;
+  background: #fffaf4;
+  box-shadow: 0 24px 40px rgba(82,50,36,.14);
+  overflow: hidden;
+}
+
+.envelope::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 92px;
+  background: var(--rose2);
+  clip-path: polygon(0 0, 50% 72%, 100% 0);
+  opacity: .72;
+}
+
+.envelope::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 58px;
+  width: 56px;
+  height: 56px;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 15px 15px 6px 15px;
+  background: var(--rose);
+}
+
+.flower-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow:
+    -13px 0 0 var(--rose2),
+    13px 0 0 var(--rose2),
+    0 -13px 0 var(--rose2),
+    0 13px 0 var(--rose2);
+  opacity: .88;
+}
+
+.f1 { left: 52px; top: 38px; }
+.f2 { right: 50px; top: 34px; transform: scale(.75); }
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: .32; }
+  50% { opacity: .75; }
+}
+
+@media (max-height: 720px) {
+  .panel {
+    min-height: 610px;
+    padding: 22px 20px;
+  }
+
+  .chapter {
+    margin-top: 24px;
+  }
+
+  .visual {
+    height: 238px;
+    margin-top: 20px;
+  }
+
+  .text {
+    font-size: 14.6px;
+  }
+
+  .caption {
+    font-size: 14px;
+    padding: 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="hint">向下滑动，慢慢看完</div>
+
+<div class="progress">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<main class="app" id="app">
+
+  <section class="scene">
+    <div class="panel">
+      <div class="top">
+        <span>Mother's Day</span>
+        <span>2026</span>
+      </div>
+
+      <div class="chapter">For Mom</div>
+      <h1>妈妈，<br> <br> 
+        母亲节快乐</h1>
+
+      <p class="text">
+一些没有好好说出口的话，
+今天慢慢讲给你听。
+      </p>
+
+      <div class="visual">
+        <div class="photo-stack reveal d1">
+          <div class="photo back"></div>
+          <div class="photo front"></div>
+          <div class="heart-seal float"></div>
+        </div>
+      </div>
+
+      <div class="caption reveal d3">
+        有些爱太日常了，日常到小时候的我没有发现。后来慢慢长大，才知道那些饭菜、等待、叮嘱和担心，都是你认真爱过我的证据。
+      </div>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div class="panel">
+      <div class="top">
+        <span>Chapter 01</span>
+        <span>Beginning</span>
+      </div>
+
+      <div class="chapter">When I was little</div>
+      <h2>小时候，<br>世界很大。</h2>
+
+      <div class="visual">
+        <div class="memory-card reveal d1">
+          <div class="label">first memories</div>
+          <div class="moon float"></div>
+          <div class="cradle"></div>
+          <div class="big-word">被爱着</div>
+        </div>
+      </div>
+
+      <p class="text">
+那时候的我还不懂很多事，
+只知道困了有人抱，
+哭了有人哄，
+回头的时候，总能找到你。
+
+后来才明白，
+那就是最早的安全感。
+      </p>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div class="panel">
+      <div class="top">
+        <span>Chapter 02</span>
+        <span>Meals</span>
+      </div>
+
+      <div class="chapter">Ordinary days</div>
+      <h2>你把爱，<br>藏进了一日三餐。</h2>
+
+      <div class="visual">
+        <div class="bowl-scene reveal d1">
+          <div class="steam s1"></div>
+          <div class="steam s2"></div>
+          <div class="steam s3"></div>
+          <div class="bowl float"></div>
+          <div class="table"></div>
+        </div>
+      </div>
+
+      <p class="text">
+小时候觉得，
+饭会准时出现，衣服会变干净，
+书包里总有被准备好的东西。
+
+长大以后才知道，
+那些看起来理所当然的日常，
+其实都不是理所当然。
+      </p>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div class="panel">
+      <div class="top">
+        <span>Chapter 03</span>
+        <span>School</span>
+      </div>
+
+      <div class="chapter">Growing up</div>
+      <h2>你送我出门，<br>也送我去更远的地方。</h2>
+
+      <div class="visual">
+        <div class="school-scene reveal d1">
+          <div class="road"></div>
+          <div class="school"></div>
+          <div class="bag float"></div>
+        </div>
+      </div>
+
+      <p class="text">
+你送我上学，
+也送我去一次次新的开始。
+
+我以为我只是自己在长大，
+可每一步后面，
+都有你替我担心，
+又努力不让我看见的样子。
+      </p>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div class="panel">
+      <div class="top">
+        <span>Chapter 04</span>
+        <span>Support</span>
+      </div>
+
+      <div class="chapter">Quiet love</div>
+      <h2>长大以后，<br>你还是一直在我身后。</h2>
+
+      <div class="visual">
+        <div class="desk-scene reveal d1">
+          <div class="window"></div>
+          <div class="lamp float"></div>
+          <div class="book"></div>
+          <div class="cup"></div>
+          <div class="desk"></div>
+        </div>
+      </div>
+
+      <p class="text">
+我会有自己的目标，
+也会遇到压力、迷茫和不确定。
+
+但很幸运，
+无论走到哪里，
+我都知道身后有一份很安静、
+却很坚定的支持。
+      </p>
+    </div>
+  </section>
+
+  <section class="scene">
+    <div class="panel">
+      <div class="top">
+        <span>Finale</span>
+        <span>Love</span>
+      </div>
+
+      <div class="chapter">Today</div>
+      <h2>今天，换我认真地<br>对你说一次。</h2>
+
+      <div class="visual">
+        <div class="letter-scene reveal d1">
+          <div class="flower-dot f1"></div>
+          <div class="flower-dot f2"></div>
+          <div class="envelope float"></div>
+        </div>
+      </div>
+
+      <div class="caption">
+        妈妈，母亲节快乐。<br><br>
+        谢谢你照顾我长大，也谢谢你一直爱我。以后，希望我也能成为让你安心、让你骄傲、也能照顾你的人。<br><br>
+        你辛苦了。爱你，不止今天。
+      </div>
+
+      <div class="signature">Love, always.</div>
+
+      <button onclick="restart()">从头再看一遍</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function restart() {
+  document.getElementById("app").scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const items = entry.target.querySelectorAll(".reveal");
+      items.forEach(item => {
+        item.style.animation = "none";
+        void item.offsetWidth;
+        item.style.animation = "";
+      });
+    }
+  });
+}, { threshold: 0.55 });
+
+document.querySelectorAll(".scene").forEach(scene => observer.observe(scene));
+</script>
+</body>
+</html>
